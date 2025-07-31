@@ -171,17 +171,19 @@ export default function InfluencerPage() {
                 <p className="text-lg font-bold text-primary">${totalCost.toFixed(2)}</p>
                 <p className="text-sm text-muted-foreground">{availableProductsCount} required items</p>
               </div>
+              <div className="pt-4">
+                <Button variant="construction" className="w-full" onClick={handleCreateBasket}>
+                  Create Project Basket ({availableProductsCount} items)
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Tools & Materials Section */}
         <section className="mb-8">
-          <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold mb-4">Required Tools & Materials</h2>
-            <Button variant="construction" onClick={handleCreateBasket}>
-              Create Project Basket ({availableProductsCount} items)
-            </Button>
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold">Required Tools & Materials</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
