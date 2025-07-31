@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -69,45 +68,38 @@ const mockProducts: Product[] = [
 export default function InfluencerPage() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
-
-  const handleAddToBasket = (product: Product) => {
-    setSelectedProducts(prev => {
-      const existing = prev.find(p => p.id === product.id);
-      if (existing) {
-        return prev.map(p => 
-          p.id === product.id 
-            ? { ...p, quantity: (p.quantity || 1) + 1 }
-            : p
-        );
-      }
-      return [...prev, { ...product, quantity: 1 }];
-    });
-
-    toast({
-      title: "Added to basket",
-      description: `${product.name} has been added to your project basket.`,
-    });
-  };
 
   const handleCreateBasket = () => {
-    if (selectedProducts.length === 0) {
+    // Add all required products to basket with default quantity of 1
+    const basketProducts = mockProducts
+      .filter(product => product.inStock)
+      .map(product => ({ ...product, quantity: 1 }));
+    
+    if (basketProducts.length === 0) {
       toast({
-        title: "No products selected",
-        description: "Please add some products to your basket first.",
+        title: "No products available",
+        description: "All required products are currently out of stock.",
         variant: "destructive",
       });
       return;
     }
 
     // Store basket in localStorage for the basket page
-    localStorage.setItem('projectBasket', JSON.stringify(selectedProducts));
+    localStorage.setItem('projectBasket', JSON.stringify(basketProducts));
+    
+    toast({
+      title: "Project basket created!",
+      description: `Added ${basketProducts.length} required items to your basket.`,
+    });
+    
     navigate('/basket');
   };
 
-  const totalCost = selectedProducts.reduce((sum, product) => 
-    sum + (product.price * (product.quantity || 1)), 0
-  );
+  const totalCost = mockProducts
+    .filter(product => product.inStock)
+    .reduce((sum, product) => sum + product.price, 0);
+
+  const availableProductsCount = mockProducts.filter(product => product.inStock).length;
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
@@ -118,7 +110,7 @@ export default function InfluencerPage() {
             <h1 className="text-2xl font-bold text-primary">DIY Project Buddy</h1>
             <Button variant="outline" onClick={() => navigate('/basket')}>
               <ShoppingBasket className="h-4 w-4 mr-2" />
-              Basket ({selectedProducts.length})
+              View Basket
             </Button>
           </div>
         </div>
@@ -175,8 +167,9 @@ export default function InfluencerPage() {
                 <Badge variant="secondary">Beginner</Badge>
               </div>
               <div>
-                <h4 className="font-semibold mb-2">Project Cost:</h4>
+                <h4 className="font-semibold mb-2">Estimated Cost:</h4>
                 <p className="text-lg font-bold text-primary">${totalCost.toFixed(2)}</p>
+                <p className="text-sm text-muted-foreground">{availableProductsCount} required items</p>
               </div>
             </CardContent>
           </Card>
@@ -186,11 +179,9 @@ export default function InfluencerPage() {
         <section className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold">Required Tools & Materials</h2>
-            {selectedProducts.length > 0 && (
-              <Button variant="construction" onClick={handleCreateBasket}>
-                Create Project Basket ({selectedProducts.length} items)
-              </Button>
-            )}
+            <Button variant="construction" onClick={handleCreateBasket}>
+              Create Project Basket ({availableProductsCount} items)
+            </Button>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -198,7 +189,7 @@ export default function InfluencerPage() {
               <ProductCard
                 key={product.id}
                 product={product}
-                onAddToBasket={handleAddToBasket}
+                // No onAddToBasket prop - removes the "Add to basket" button
               />
             ))}
           </div>
@@ -209,15 +200,14 @@ export default function InfluencerPage() {
           <CardContent className="p-8 text-center">
             <h3 className="text-2xl font-bold mb-4">Ready to Start Building?</h3>
             <p className="text-lg mb-6 opacity-90">
-              Add the recommended tools and materials to your project basket and get started today!
+              Create your project basket with all the required tools and materials to get started!
             </p>
             <Button 
               size="lg" 
               variant="secondary"
               onClick={handleCreateBasket}
-              disabled={selectedProducts.length === 0}
             >
-              Create Project Basket
+              Create Project Basket - ${totalCost.toFixed(2)}
             </Button>
           </CardContent>
         </Card>
