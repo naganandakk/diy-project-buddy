@@ -177,8 +177,8 @@ export default function InfluencerPage() {
 
         {/* Tools & Materials Section */}
         <section className="mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold">Required Tools & Materials</h2>
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold mb-4">Required Tools & Materials</h2>
             <Button variant="construction" onClick={handleCreateBasket}>
               Create Project Basket ({availableProductsCount} items)
             </Button>
