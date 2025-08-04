@@ -7,13 +7,19 @@ import { ProductCard, Product } from "@/components/ProductCard";
 import { ShoppingBasket, Clock, Users, TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import heroImage from "@/assets/hero-workspace.jpg";
+import dewaltDrillImage from "@/assets/dewalt-drill.jpg";
+import measuringTapeImage from "@/assets/measuring-tape.jpg";
+import woodScrewsImage from "@/assets/wood-screws.jpg";
+import safetyGlassesImage from "@/assets/safety-glasses.jpg";
+import levelImage from "@/assets/level.jpg";
+import sandpaperImage from "@/assets/sandpaper.jpg";
 
 const mockProducts: Product[] = [
   {
     id: "1",
     name: "DEWALT 20V MAX Cordless Drill",
     price: 89.99,
-    image: "/placeholder.svg",
+    image: dewaltDrillImage,
     category: "tool",
     rating: 4.8,
     inStock: true,
@@ -22,7 +28,7 @@ const mockProducts: Product[] = [
     id: "2", 
     name: "Measuring Tape 25ft",
     price: 12.99,
-    image: "/placeholder.svg",
+    image: measuringTapeImage,
     category: "tool",
     rating: 4.5,
     inStock: true,
@@ -31,7 +37,7 @@ const mockProducts: Product[] = [
     id: "3",
     name: "Wood Screws (100 pack)",
     price: 8.49,
-    image: "/placeholder.svg",
+    image: woodScrewsImage,
     category: "material",
     rating: 4.3,
     inStock: true,
@@ -40,7 +46,7 @@ const mockProducts: Product[] = [
     id: "4",
     name: "Safety Glasses",
     price: 15.99,
-    image: "/placeholder.svg",
+    image: safetyGlassesImage,
     category: "safety",
     rating: 4.6,
     inStock: true,
@@ -49,7 +55,7 @@ const mockProducts: Product[] = [
     id: "5",
     name: "Level 24-inch",
     price: 24.99,
-    image: "/placeholder.svg",
+    image: levelImage,
     category: "tool",
     rating: 4.7,
     inStock: true,
@@ -58,7 +64,7 @@ const mockProducts: Product[] = [
     id: "6",
     name: "Sandpaper Assortment",
     price: 18.99,
-    image: "/placeholder.svg",
+    image: sandpaperImage,
     category: "material",
     rating: 4.4,
     inStock: false,
